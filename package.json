@@ -1,0 +1,28 @@
+{
+  "name": "serverless-python-story",
+  "version": "0.1.0",
+  "description": "The example of Python application with the usage of Serverless",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/redlickigrzegorz/serverless-python-story.git"
+  },
+  "bugs": {
+    "url": "https://github.com/redlickigrzegorz/serverless-python-story/issues"
+  },
+  "scripts": {
+    "upgrade": "ncu --upgradeAll",
+    "offline-start": "serverless offline start",
+    "deploy": "serverless deploy"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "npm-check-updates": "^2.15.0",
+    "serverless": "^1.38.0",
+    "serverless-dotenv-plugin": "^2.0.1",
+    "serverless-offline": "^4.5.1",
+    "serverless-python-requirements": "^4.3.0"
+  },
+  "homepage": "https://github.com/redlickigrzegorz/serverless-python-story#readme",
+  "author": "Grzegorz Redlicki",
+  "license": "MIT"
+}
