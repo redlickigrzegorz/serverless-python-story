@@ -16,15 +16,15 @@ Set the variables in your environment manually or create your own `.env` file wi
 Development
 -----------
 
-Run to install all dependency packages:
+Run to install all `npm` dependency packages:
 ```bash
 $ npm install
 ```
 
-Run to upgrade the version of all the dependency packages:
+Run to install all `Python` dependency packages:
 ```bash
-$ npm run upgrade
-$ npm install
+$ pip install poetry
+$ poetry install
 ```
 
 Run to emulate `API Gateway` for processing the calls of `AWS λ` functions locally:
@@ -35,4 +35,15 @@ $ npm run offline-start
 Run to deploy the service into the Amazon Web Services:
 ```bash
 $ npm run deploy -- --stage STAGE_NAME
+```
+
+Run to check the correctness of the code:
+```bash
+$ flake8
+$ mypy .
+```
+
+Run to format the code:
+```bash
+$ black .
 ```
