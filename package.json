@@ -16,9 +16,9 @@
   },
   "dependencies": {},
   "devDependencies": {
+    "dotenv": "^6.2.0",
     "npm-check-updates": "^2.15.0",
     "serverless": "^1.38.0",
-    "serverless-dotenv-plugin": "^2.0.1",
     "serverless-offline": "^4.5.1",
     "serverless-python-requirements": "^4.3.0"
   },

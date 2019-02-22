@@ -1,9 +1,12 @@
 service: serverless-python-story
 
 plugins:
-  - serverless-dotenv-plugin
   - serverless-offline
   - serverless-python-requirements
+
+custom:
+  pythonRequirements:
+    usePoetry: true
 
 # https://serverless.com/framework/docs/providers/aws/guide/
 provider:
