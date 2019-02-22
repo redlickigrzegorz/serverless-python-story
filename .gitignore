@@ -108,3 +108,6 @@ venv.bak/
 
 # Serverless directories
 .serverless
+
+# package directories
+node_modules
