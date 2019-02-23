@@ -6,7 +6,7 @@ plugins:
 
 custom:
   pythonRequirements:
-    usePoetry: true
+    dockerizePip: true
 
 # https://serverless.com/framework/docs/providers/aws/guide/
 provider:

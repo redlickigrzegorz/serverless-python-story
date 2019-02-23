@@ -7,7 +7,15 @@ dotenv.config();
  * The environment variable can be either set in the environment or kept in the ".env" file.
  * The error is thrown when the environment variable is not found.
  */
-const envVariables = {};
+const envVariables = {
+    SECURITY_GROUP_IDS: getEnvVariableValue('SECURITY_GROUP_IDS'),
+    SUBNET_IDS: getEnvVariableValue('SUBNET_IDS'),
+    POSTGRES_HOST: getEnvVariableValue('POSTGRES_HOST'),
+    POSTGRES_PORT: getEnvVariableValue('POSTGRES_PORT'),
+    POSTGRES_DB: getEnvVariableValue('POSTGRES_DB'),
+    POSTGRES_USER: getEnvVariableValue('POSTGRES_USER'),
+    POSTGRES_PASSWORD: getEnvVariableValue('POSTGRES_PASSWORD'),
+};
 
 function getEnvVariableValue(variableName) {
     if (variableName in process.env) {

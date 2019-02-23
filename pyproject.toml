@@ -6,6 +6,10 @@ authors = ["Grzegorz Redlicki <redlicki.grzegorz@gmail.com>"]
 
 [tool.poetry.dependencies]
 python = "^3.7"
+six = "^1.12"
+SQLAlchemy = "^1.2"
+psycopg2-binary = "^2.7"
+alembic = "^1.0"
 
 [tool.poetry.dev-dependencies]
 black = "18.9b0"
