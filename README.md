@@ -37,10 +37,17 @@ Run to deploy the service into the Amazon Web Services:
 $ npm run deploy -- --stage STAGE_NAME
 ```
 
+Run to migrate the changes into the database:
+```bash
+$ alembic revision --autogenerate -m "MIGRATION_DESCRIPTION"
+$ alembic upgrade heads
+```
+
 Run to check the correctness of the code:
 ```bash
 $ flake8
 $ mypy .
+$ pytest
 ```
 
 Run to format the code:
