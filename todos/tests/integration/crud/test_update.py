@@ -1,0 +1,117 @@
+import datetime
+import http
+import json
+from unittest import mock
+
+import freezegun
+import pytest
+from sqlalchemy import orm
+
+from todos import crud, db
+from todos.db import models
+from todos.db.models import task
+
+
+@pytest.fixture()
+def exemplary_changed_task_name() -> str:
+    return 'changed task name'
+
+
+@pytest.fixture()
+def exemplary_changed_task_description() -> str:
+    return 'changed task description'
+
+
+@pytest.fixture()
+def exemplary_event_path_parameters(exemplary_task_model: models.Task) -> dict:
+    return {'task_id': exemplary_task_model.id}
+
+
+def test_should_successfully_update_task_name(
+        dbsession: orm.Session,
+        time_to_freeze: datetime.datetime,
+        exemplary_changed_task_name: str,
+        exemplary_task_description: str,
+        exemplary_event_path_parameters: dict,
+) -> None:
+    with mock.patch.object(db, 'get_session', return_value=dbsession):
+        event = {
+            'body': json.dumps({'name': exemplary_changed_task_name}), 'pathParameters': exemplary_event_path_parameters
+        }
+        with freezegun.freeze_time(time_to_freeze):
+            response = crud.update_task(event, {})
+    assert response['statusCode'] == http.HTTPStatus.OK
+    assert response['body'] is None
+
+    query = dbsession.query(models.Task).filter(
+        (models.Task.name == exemplary_changed_task_name) &
+        (models.Task.description == exemplary_task_description) &
+        (models.Task.priority == task.Priority.HIGH) &
+        (models.Task.updated_at == time_to_freeze)
+    )
+    assert dbsession.query(query.exists()).scalar()
+
+
+def test_should_successfully_update_task_description(
+        dbsession: orm.Session,
+        time_to_freeze: datetime.datetime,
+        exemplary_task_name: str,
+        exemplary_changed_task_description: str,
+        exemplary_event_path_parameters: dict,
+) -> None:
+    with mock.patch.object(db, 'get_session', return_value=dbsession):
+        event = {
+            'body': json.dumps({'description': exemplary_changed_task_description}),
+            'pathParameters': exemplary_event_path_parameters
+        }
+        with freezegun.freeze_time(time_to_freeze):
+            response = crud.update_task(event, {})
+    assert response['statusCode'] == http.HTTPStatus.OK
+    assert response['body'] is None
+
+    query = dbsession.query(models.Task).filter(
+        (models.Task.name == exemplary_task_name) &
+        (models.Task.description == exemplary_changed_task_description) &
+        (models.Task.priority == task.Priority.HIGH) &
+        (models.Task.updated_at == time_to_freeze)
+    )
+    assert dbsession.query(query.exists()).scalar()
+
+
+def test_should_successfully_update_task_priority(
+        dbsession: orm.Session,
+        time_to_freeze: datetime.datetime,
+        exemplary_task_name: str,
+        exemplary_task_description: str,
+        exemplary_event_path_parameters: dict,
+) -> None:
+    with mock.patch.object(db, 'get_session', return_value=dbsession):
+        event = {
+            'body': json.dumps({'priority': task.Priority.LOW.name}),
+            'pathParameters': exemplary_event_path_parameters
+        }
+        with freezegun.freeze_time(time_to_freeze):
+            response = crud.update_task(event, {})
+    assert response['statusCode'] == http.HTTPStatus.OK
+    assert response['body'] is None
+
+    query = dbsession.query(models.Task).filter(
+        (models.Task.name == exemplary_task_name) &
+        (models.Task.description == exemplary_task_description) &
+        (models.Task.priority == task.Priority.LOW) &
+        (models.Task.updated_at == time_to_freeze)
+    )
+    assert dbsession.query(query.exists()).scalar()
+
+
+def test_should_return_bad_request_when_task_not_found(dbsession: orm.Session) -> None:
+    with mock.patch.object(db, 'get_session', return_value=dbsession):
+        response = crud.update_task({'body': json.dumps({}), 'pathParameters': {'task_id': 999}}, {})
+    assert response['statusCode'] == http.HTTPStatus.BAD_REQUEST
+
+
+def test_should_return_service_unavailable_when_unexpected_error_occurs() -> None:
+    with mock.patch.object(db, 'get_session', side_effect=Exception()):
+        response = crud.get_task_details({'body': json.dumps({}), 'pathParameters': {'task_id': 999}}, {})
+    assert response['statusCode'] == http.HTTPStatus.SERVICE_UNAVAILABLE
+    assert response['body'] is None
