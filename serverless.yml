@@ -6,7 +6,7 @@ plugins:
 
 custom:
   pythonRequirements:
-    usePoetry: true
+    dockerizePip: true
 
 # https://serverless.com/framework/docs/providers/aws/guide/
 provider:
@@ -15,11 +15,65 @@ provider:
   runtime: python3.7
   memorySize: 128
   timeout: 10
+  environment:
+    ACCESS_TOKEN: ${file(config.js):getEnvs.ACCESS_TOKEN}
+    POSTGRES_HOST: ${file(config.js):getEnvs.POSTGRES_HOST}
+    POSTGRES_PORT: ${file(config.js):getEnvs.POSTGRES_PORT}
+    POSTGRES_DB: ${file(config.js):getEnvs.POSTGRES_DB}
+    POSTGRES_USER: ${file(config.js):getEnvs.POSTGRES_USER}
+    POSTGRES_PASSWORD: ${file(config.js):getEnvs.POSTGRES_PASSWORD}
+  vpc:
+    securityGroupIds:
+      "Fn::Split":
+        - ","
+        - ${file(config.js):getEnvs.SECURITY_GROUP_IDS}
+    subnetIds:
+      "Fn::Split":
+        - ","
+        - ${file(config.js):getEnvs.SUBNET_IDS}
 
 functions:
-  hello:
-    handler: handler.hello
+  migrate:
+    handler: todos/db.apply_migrations
+  list-tasks:
+    handler: todos/crud.get_all_tasks
     events:
-        - http:
-            method: get
-            path: hello
+      - http:
+          method: get
+          path: api/v1/tasks
+  get-task-details:
+    handler: todos/crud.get_task_details
+    events:
+      - http:
+          method: get
+          path: api/v1/tasks/{task_id}
+  create-task:
+    handler: todos/crud.create_new_task
+    events:
+      - http:
+          method: post
+          path: api/v1/tasks
+  update-task:
+    handler: todos/crud.update_task
+    events:
+      - http:
+          method: patch
+          path: api/v1/tasks/{task_id}
+  complete-task:
+    handler: todos/crud.complete_task
+    events:
+      - http:
+          method: delete
+          path: api/v1/tasks/{task_id}
+
+resources:
+  Resources:
+    ServerlessRDSCluster:
+      Type: AWS::RDS::DBInstance
+      Properties:
+        Engine: Postgres
+        DBName: ${file(config.js):getEnvs.POSTGRES_DB}
+        MasterUsername: ${file(config.js):getEnvs.POSTGRES_USER}
+        MasterUserPassword: ${file(config.js):getEnvs.POSTGRES_PASSWORD}
+        DBInstanceClass: db.t2.small
+        AllocatedStorage: 10

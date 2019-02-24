@@ -1,16 +1,24 @@
 [tool.poetry]
 name = "serverless-python-story"
-version = "0.1.0"
+version = "0.2.0"
 description = "The example of Python application with the usage of Serverless"
 authors = ["Grzegorz Redlicki <redlicki.grzegorz@gmail.com>"]
 
 [tool.poetry.dependencies]
 python = "^3.7"
+six = "^1.12"
+SQLAlchemy = "^1.2"
+psycopg2-binary = "^2.7"
+alembic = "^1.0"
+pytz = "^2018.9"
 
 [tool.poetry.dev-dependencies]
 black = "18.9b0"
 mypy = "^0.670.0"
 flake8 = "^3.7"
+pytest = "^4.3"
+pytest-sqlalchemy = "^0.2.1"
+freezegun = "^0.3.11"
 
 [tool.black]
 line-length = 120
@@ -18,6 +26,7 @@ exclude = '''
 /(
     \.git
   | \.mypy_cache
+  | \.serverless
   | node_modules
 )/
 '''

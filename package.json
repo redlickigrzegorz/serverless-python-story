@@ -1,6 +1,6 @@
 {
   "name": "serverless-python-story",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "The example of Python application with the usage of Serverless",
   "repository": {
     "type": "git",
@@ -12,6 +12,7 @@
   "scripts": {
     "upgrade": "ncu --upgradeAll",
     "offline-start": "serverless offline start",
+    "migrate": "serverless invoke --function migrate",
     "deploy": "serverless deploy"
   },
   "dependencies": {},
