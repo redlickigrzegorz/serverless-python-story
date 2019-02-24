@@ -4,7 +4,7 @@ import logging
 
 import pytz
 
-from todos import db
+from todos import auth, db
 from todos.common import exceptions, responses, parameters
 from todos.db import models
 
@@ -12,6 +12,7 @@ logger = logging.getLogger(__name__)
 logger.setLevel(logging.INFO)
 
 
+@auth.require_access_token
 def complete_task(event: dict, _context: dict) -> dict:
     try:
         _complete_task(event)

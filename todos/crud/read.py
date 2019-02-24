@@ -3,7 +3,7 @@ import logging
 
 from sqlalchemy import orm
 
-from todos import db
+from todos import auth, db
 from todos.db import models
 from todos import serializers
 from todos.common import exceptions, parameters, responses
@@ -12,6 +12,7 @@ logger = logging.getLogger(__name__)
 logger.setLevel(logging.INFO)
 
 
+@auth.require_access_token
 def get_all_tasks(_event: dict, _context: dict) -> dict:
     try:
         session = db.get_session()
@@ -23,6 +24,7 @@ def get_all_tasks(_event: dict, _context: dict) -> dict:
         return responses.http_response(http.HTTPStatus.OK, serializers.serialize_tasks(tasks))
 
 
+@auth.require_access_token
 def get_task_details(event: dict, _context: dict) -> dict:
     try:
         task = _get_task_details(event)

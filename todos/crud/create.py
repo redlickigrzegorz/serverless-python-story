@@ -2,7 +2,7 @@ import http
 import json
 import logging
 
-from todos import db
+from todos import auth, db
 from todos.common import exceptions, parameters, responses
 from todos.db import models
 
@@ -10,6 +10,7 @@ logger = logging.getLogger(__name__)
 logger.setLevel(logging.INFO)
 
 
+@auth.require_access_token
 def create_new_task(event: dict, _context: dict) -> dict:
     try:
         body = json.loads(event['body'])

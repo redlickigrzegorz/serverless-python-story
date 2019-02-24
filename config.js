@@ -10,6 +10,7 @@ dotenv.config();
 const envVariables = {
     SECURITY_GROUP_IDS: getEnvVariableValue('SECURITY_GROUP_IDS'),
     SUBNET_IDS: getEnvVariableValue('SUBNET_IDS'),
+    ACCESS_TOKEN: getEnvVariableValue('ACCESS_TOKEN'),
     POSTGRES_HOST: getEnvVariableValue('POSTGRES_HOST'),
     POSTGRES_PORT: getEnvVariableValue('POSTGRES_PORT'),
     POSTGRES_DB: getEnvVariableValue('POSTGRES_DB'),
