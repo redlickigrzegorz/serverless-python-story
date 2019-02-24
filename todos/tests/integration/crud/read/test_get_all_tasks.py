@@ -22,13 +22,14 @@ def test_should_return_unauthorized_when_access_token_is_missing() -> None:
     assert response["body"] is None
 
 
-def test_should_successfully_return_list_of_tasks(
+@pytest.mark.usefixtures("exemplary_completed_task_model_list")
+def test_should_successfully_return_list_of_not_completed_tasks(
     dbsession: orm.Session, exemplary_event: dict, exemplary_task_model_list: typing.List[models.Task]
 ) -> None:
     with mock.patch.object(db, "get_session", return_value=dbsession):
         response = crud.get_all_tasks(exemplary_event, {})
     assert response["statusCode"] == http.HTTPStatus.OK
-    assert response["body"] == json.dumps(serializers.serialize_tasks(exemplary_task_model_list))
+    assert response["body"] == json.dumps(serializers.serialize_tasks(exemplary_task_model_list[::-1]))
 
 
 def test_should_return_empty_list_when_no_tasks(dbsession: orm.Session, exemplary_event: dict) -> None:

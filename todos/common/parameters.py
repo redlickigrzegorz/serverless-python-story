@@ -22,7 +22,7 @@ def get_task_priority_from_body(body: dict, required: bool = True) -> typing.Opt
 
 def _get_body_attribute(body: dict, parameter: str, required: bool = True) -> typing.Optional[str]:
     value = body.get(parameter)
-    if value or not required:
+    if value is not None or not required:
         return str(value) if value is not None else value
     raise exceptions.MissingParameter(parameter)
 

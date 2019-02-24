@@ -16,7 +16,12 @@ logger.setLevel(logging.INFO)
 def get_all_tasks(_event: dict, _context: dict) -> dict:
     try:
         session = db.get_session()
-        tasks = session.query(models.Task).all()
+        tasks = (
+            session.query(models.Task)
+            .filter(models.Task.completed_at.is_(None))
+            .order_by(models.Task.priority.desc())
+            .all()
+        )
     except Exception as error:
         logger.error('Error during getting all tasks: "%s"', error)
         return responses.http_response(http.HTTPStatus.SERVICE_UNAVAILABLE)
