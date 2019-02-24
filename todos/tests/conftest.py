@@ -11,12 +11,12 @@ def exemplary_task_id() -> int:
 
 @pytest.fixture()
 def exemplary_task_name() -> str:
-    return 'to do something'
+    return "to do something"
 
 
 @pytest.fixture()
 def exemplary_task_description() -> str:
-    return 'very important task'
+    return "very important task"
 
 
 @pytest.fixture()

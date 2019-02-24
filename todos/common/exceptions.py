@@ -18,4 +18,4 @@ class WrongParameterValueType(CustomException):
 
 class TaskNotFound(CustomException):
     def __init__(self, task_id: int) -> None:
-        super().__init__(f'Task [{task_id}] does not exist!')
+        super().__init__(f"Task [{task_id}] does not exist!")

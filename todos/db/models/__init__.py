@@ -1,5 +1,3 @@
-__all__ = [
-    'Task',
-]
+__all__ = ["Task"]
 
 from todos.db.models.task import Task

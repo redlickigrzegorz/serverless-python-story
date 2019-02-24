@@ -1,4 +1,4 @@
 [flake8]
 max-line-length = 120
 max-complexity = 5
-exclude = node_modules
+exclude = .serverless,node_modules

@@ -13,7 +13,7 @@ class Priority(enum.Enum):
 
 
 class Task(meta.Base):
-    __tablename__ = 'tasks'
+    __tablename__ = "tasks"
 
     id = sa.Column(sqltypes.Integer, primary_key=True)
     name = sa.Column(sqltypes.String(50), nullable=False)

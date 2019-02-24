@@ -29,7 +29,7 @@ def get_task_details(event: dict, _context: dict) -> dict:
     try:
         task = _get_task_details(event)
     except (exceptions.MissingParameter, exceptions.WrongParameterValueType, exceptions.TaskNotFound) as error:
-        return responses.http_response(http.HTTPStatus.BAD_REQUEST, {'message': error.message})
+        return responses.http_response(http.HTTPStatus.BAD_REQUEST, {"message": error.message})
     except Exception as error:
         logger.error('Error during getting all tasks: "%s"', error)
         return responses.http_response(http.HTTPStatus.SERVICE_UNAVAILABLE)
@@ -38,7 +38,7 @@ def get_task_details(event: dict, _context: dict) -> dict:
 
 
 def _get_task_details(event: dict) -> models.Task:
-    task_id = parameters.get_task_id_from_path(event['pathParameters'])
+    task_id = parameters.get_task_id_from_path(event["pathParameters"])
     try:
         session = db.get_session()
         return session.query(models.Task).filter(models.Task.id == task_id).one()

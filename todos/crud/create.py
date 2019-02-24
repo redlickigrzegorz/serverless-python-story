@@ -13,12 +13,12 @@ logger.setLevel(logging.INFO)
 @auth.require_access_token
 def create_new_task(event: dict, _context: dict) -> dict:
     try:
-        body = json.loads(event['body'])
+        body = json.loads(event["body"])
         session = db.get_session()
         session.add(_build_task(body))
         session.commit()
     except (exceptions.MissingParameter, exceptions.WrongParameterValueType) as error:
-        return responses.http_response(http.HTTPStatus.BAD_REQUEST, {'message': error.message})
+        return responses.http_response(http.HTTPStatus.BAD_REQUEST, {"message": error.message})
     except Exception as error:
         logger.error('Error during creating new task: "%s"', error)
         return responses.http_response(http.HTTPStatus.SERVICE_UNAVAILABLE)
