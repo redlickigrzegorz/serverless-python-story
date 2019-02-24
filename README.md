@@ -40,7 +40,7 @@ $ npm run deploy -- --stage STAGE_NAME
 Run to migrate the changes into the database:
 ```bash
 $ alembic revision --autogenerate -m "MIGRATION_DESCRIPTION"
-$ alembic upgrade heads
+$ npm run migrate -- local  # use "local" argument for local database
 ```
 
 Run to check the correctness of the code:

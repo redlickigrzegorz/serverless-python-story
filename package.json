@@ -12,6 +12,7 @@
   "scripts": {
     "upgrade": "ncu --upgradeAll",
     "offline-start": "serverless offline start",
+    "migrate": "serverless invoke --function migrate",
     "deploy": "serverless deploy"
   },
   "dependencies": {},

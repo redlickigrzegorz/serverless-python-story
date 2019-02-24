@@ -1,6 +1,7 @@
 import os
 import typing
 
+from alembic import config as alembic_config
 from sqlalchemy import engine, orm
 
 
@@ -26,3 +27,8 @@ def build_sqlalchemy_url(database_name: typing.Optional[str] = None) -> str:
         )
     except KeyError:
         raise RuntimeError('Database credentials must be specified in environment variables!')
+
+
+def apply_migrations(_event: dict, _context: dict) -> str:
+    alembic_config.main(argv=['--raiseerr', 'upgrade', 'head'])
+    return 'Database migrations applied successfully'
