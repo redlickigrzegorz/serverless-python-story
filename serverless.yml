@@ -72,8 +72,8 @@ resources:
       Type: AWS::RDS::DBInstance
       Properties:
         Engine: Postgres
-        DBName: test
-        MasterUsername: postgres
-        MasterUserPassword: YFWCLUz8k5Qri8
+        DBName: ${file(config.js):getEnvs.POSTGRES_DB}
+        MasterUsername: ${file(config.js):getEnvs.POSTGRES_USER}
+        MasterUserPassword: ${file(config.js):getEnvs.POSTGRES_PASSWORD}
         DBInstanceClass: db.t2.small
         AllocatedStorage: 10
