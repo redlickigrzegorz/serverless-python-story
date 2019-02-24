@@ -1,6 +1,15 @@
 import os
 import typing
 
+from sqlalchemy import engine, orm
+
+
+def get_session() -> orm.Session:
+    db_engine = engine.create_engine(build_sqlalchemy_url())
+    session_factory = orm.sessionmaker()
+    session_factory.configure(bind=db_engine)
+    return session_factory()
+
 
 def build_sqlalchemy_url(database_name: typing.Optional[str] = None) -> str:
     """
