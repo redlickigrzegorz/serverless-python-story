@@ -2,6 +2,11 @@ import pytest
 
 
 @pytest.fixture()
+def exemplary_task_id() -> int:
+    return 999
+
+
+@pytest.fixture()
 def exemplary_task_name() -> str:
     return 'to do something'
 

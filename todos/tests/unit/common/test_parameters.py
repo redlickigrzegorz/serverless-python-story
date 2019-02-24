@@ -52,3 +52,18 @@ def test_should_raise_missing_parameter_when_priority_is_not_present() -> None:
 def test_should_raise_wrong_value_type_when_priority_is_not_proper() -> None:
     with pytest.raises(exceptions.WrongParameterValueType):
         parameters.get_task_priority_from_body({'priority': 'not_proper_prioritu'})
+
+
+def test_should_successfully_return_task_id_from_path(exemplary_task_id: int) -> None:
+    actual_task_id = parameters.get_task_id_from_path({'task_id': exemplary_task_id})
+    assert actual_task_id == exemplary_task_id
+
+
+def test_should_raise_missing_parameter_when_task_id_is_not_present() -> None:
+    with pytest.raises(exceptions.MissingParameter):
+        parameters.get_task_id_from_path({})
+
+
+def test_should_raise_wrong_value_type_when_task_id_is_not_proper() -> None:
+    with pytest.raises(exceptions.WrongParameterValueType):
+        parameters.get_task_id_from_path({'task_id': 'not_proper_task_id'})

@@ -25,3 +25,12 @@ def _get_body_attribute(body: dict, parameter: str, required: bool = True) -> st
     if value or not required:
         return str(value) if value is not None else value
     raise exceptions.MissingParameter(parameter)
+
+
+def get_task_id_from_path(path_parameters: dict) -> int:
+    try:
+        return int(path_parameters['task_id'])
+    except KeyError:
+        raise exceptions.MissingParameter('task_id')
+    except ValueError:
+        raise exceptions.WrongParameterValueType('task_id')
