@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "serverless-python-story"
-version = "0.1.0"
+version = "0.2.0"
 description = "The example of Python application with the usage of Serverless"
 authors = ["Grzegorz Redlicki <redlicki.grzegorz@gmail.com>"]
 
