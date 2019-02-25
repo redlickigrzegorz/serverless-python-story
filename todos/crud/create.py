@@ -29,6 +29,6 @@ def create_new_task(event: dict, _context: dict) -> dict:
 def _build_task(body: dict) -> models.Task:
     return models.Task(
         name=parameters.get_task_name_from_body(body),
-        description=parameters.get_task_description_from_body(body),
+        description=parameters.get_task_description_from_body(body, required=False),
         priority=parameters.get_task_priority_from_body(body, required=False),
     )

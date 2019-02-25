@@ -55,7 +55,7 @@ def test_should_return_bad_request_when_name_is_missing(
     assert response["statusCode"] == http.HTTPStatus.BAD_REQUEST
 
 
-def test_should_return_bad_request_when_description_is_missing(
+def test_should_successfully_create_new_task_when_description_is_missing(
     dbsession: orm.Session, exemplary_headers_with_access_token: dict, exemplary_event_body: dict
 ) -> None:
     event_body = copy.deepcopy(exemplary_event_body)
@@ -63,7 +63,15 @@ def test_should_return_bad_request_when_description_is_missing(
     event = {"headers": exemplary_headers_with_access_token, "body": json.dumps(event_body)}
     with mock.patch.object(db, "get_session", return_value=dbsession):
         response = crud.create_new_task(event, {})
-    assert response["statusCode"] == http.HTTPStatus.BAD_REQUEST
+    assert response["statusCode"] == http.HTTPStatus.CREATED
+    assert response["body"] is None
+
+    query = dbsession.query(models.Task).filter(
+        (models.Task.name == exemplary_event_body["name"])
+        & (models.Task.description.is_(None))
+        & (models.Task.priority == exemplary_event_body["priority"])
+    )
+    assert dbsession.query(query.exists()).scalar()
 
 
 def test_should_return_bad_request_when_priority_is_not_proper(
