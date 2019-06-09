@@ -17,10 +17,10 @@
   },
   "dependencies": {},
   "devDependencies": {
-    "dotenv": "^6.2.0",
-    "npm-check-updates": "^2.15.0",
-    "serverless": "^1.38.0",
-    "serverless-offline": "^4.5.1",
+    "dotenv": "^8.0.0",
+    "npm-check-updates": "^3.1.10",
+    "serverless": "^1.44.1",
+    "serverless-offline": "^5.3.2",
     "serverless-python-requirements": "^4.3.0"
   },
   "homepage": "https://github.com/redlickigrzegorz/serverless-python-story#readme",
